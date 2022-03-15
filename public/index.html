@@ -247,7 +247,7 @@
         " />
 
         <h3>relationships</h3>
-        <textarea id="relationships rows="10" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+        <textarea id="relationships" rows="10" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
             fetch("topics", {
                 method: "DELETE"
             })
@@ -263,7 +263,7 @@
                 )
         </textarea>
         <input class="run" type="button" value="Execute" onclick="
-        eval(document.querySelector('#relationships').value);
+        eval(document.querySelector("#relationships").value);
             " />
     </div>
     <div></div>
