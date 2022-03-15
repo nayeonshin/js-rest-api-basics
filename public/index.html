@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        textarea {
+            width: 100%;
+            overflow-y: visible;
+        }
+
+        .run {
+            width: 100%;
+            margin: 0.2rem 0;
+        }
+
+        pre {
+            margin: 0;
+        }
+
+        html {
+            margin: 8rem 0;
+        }
+
+        body {
+            display: grid;
+            grid-template-columns: 1fr 1024px 1fr;
+            font-family: "Spoqa Han Sans", "Sans-serif";
+            font-weight: 100;
+        }
+
+        h1 {
+            font-size: 5rem;
+            text-align: center;
+        }
+
+        h3 {
+            margin-top: 5rem;
+            margin-bottom: 0.2rem;
+        }
+    </style>
+    <link href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div></div>
+    <div>
+        <h1>REST API Lab</h1>
+
+        <h2>Preparation</h2>
+        <ol>
+            <li>Install node.js</li>
+            <li>
+                Install json-server<br />
+                <code>npm i -g json-server</code>
+            </li>
+            <li>
+                Create <code>db.json</code><br />
+                <pre>
+            {
+                "topics": [
+                    {
+                        "id": 1,
+                        "title": "REST",
+                        "body": "REST is ..."
+                    }
+                ],
+                "comments": [
+                    {      
+                        "id": 1,
+                        "body": "POST is ...",
+                        "topicId":1 
+                    },
+                    {
+                        "id": 2,
+                        "body": "READ comments is ...",
+                        "topicId":1 
+                    }
+                ]
+            }
+                </pre>
+            </li>
+            <li>
+                Execute json-server<br />
+                <code>json-server --watch db.json</code><br />
+                => <code>db.json</code> is created.
+            </li>
+            <li>
+                Open Network tab in DevTools and open the console as well by hitting
+                Esc.
+            </li>
+            <li>If you press the execute button, JavaScript will execute.</li>
+        </ol>
+
+        <h3>Create - POST</h3>
+        <textarea id="post" rows="10" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+      fetch("topics", {
+          method: "POST",
+          headers: {
+              "content-type": "application/json"
+          },
+          body: JSON.stringify({
+              title: "fetch",
+              body: "fetch is..."
+          }).then(
+              function (response) {
+                  console.log("status", response.status);
+                  return response.json()
+              }
+            .then(
+                function(result) {
+                    console.log(result);
+                }
+            )
+          )
+      })
+        </textarea>
+        <input class="run" type="button" value="Execute" onclick="
+            eval(document.querySelector('#post').value);
+        " />
+        <h3>Reading Collection - GET</h3>
+        <textarea id="get_collection" rows="10"
+            onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+        fetch("topics", { method: "GET" })
+            .then(
+                function (response) {
+                    return response.json()
+                }
+            )
+            .then(
+                function (result) {
+                    console.log(result);
+                }
+            )
+        </textarea>
+        <input class="run" type="button" value="Execute" onclick="
+            eval(document.querySelector('#get_collection').value);
+        " />
+
+        <h3>Reading Elements - GET</h3>
+        <textarea id="get_element" rows="10"
+            onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+        fetch("topics/2")
+            .then(
+                function (response) {
+                    return response.json()
+                }
+            )
+            .then(
+                function (result) {
+                    console.log(result);
+                }
+            )
+        </textarea>
+        <input class="run" type="button" value="Execute" onclick="
+            eval(document.querySelector('#get_element').value);
+        " />
+
+        <h3>Update Partially - PATCH</h3>
+        <p>Notice that data that hasn't been sent are not deleted.</p>
+        <textarea id="patch" rows="10" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+        fetch("topics/2", {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                title: "fetch - patch"
+            })
+        }).then(
+            function (response) {
+                return response.json()
+            }
+        )
+        </textarea>
+        <input class="run" type="button" value="Execute" onclick="
+            eval(document.querySelector('#patch').value);
+        " />
+
+        <h3>Update All - PUT</h3>
+        <p>Notice that data that hasn't been sent are not deleted.</p>
+        <textarea id="put" rows="10" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+        fetch("topics/2", {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                title: "fetch - put"
+            })
+        }).then({
+            function(response) {
+                return response.json()
+            }
+        }).then(
+            function(result) {
+                console.log(result);
+            }
+        )
+        </textarea>
+        <input class="run" type="button" value="실행" onclick="
+            eval(document.querySelector('#put').value);
+        " />
+
+        <h3>Delete - DELETE</h3>
+        <textarea id="delete" rows="10" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+        fetch("topics/2", {
+            method: "DELETE"
+        }).then(
+            function (response) {
+                return response.json()
+            }
+        ).then(
+            function (result) {
+                console.log(result);
+            }
+        )
+    </textarea>
+        <input class="run" type="button" value="Execute" onclick="
+    eval(document.querySelector('#delete').value);
+" />
+        <h3>Delete - DELETE</h3>
+        <p></p>
+        Deletes the entire collection. Since this is a dangerous command, it's
+        not executable most of the time.</p>
+        </p>
+        <textarea id="delete_collection" rows="10"
+            onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+      fetch("topics", {
+          method: "DELETE"
+      })
+        .then(
+            function (response) {
+                return response.json()
+            }
+        )
+        .then(
+            function (result) {
+                console.log(result);
+            }
+        )
+    </textarea>
+        <input class="run" type="button" value="Execute" onclick="
+    eval(document.querySelector('#delete_collection').value);
+        " />
+
+        <h3>relationships</h3>
+        <textarea id="relationships rows="10" onclick='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+            fetch("topics", {
+                method: "DELETE"
+            })
+                .then(
+                    function (response) {
+                        return response.json()
+                    }
+                )
+                .then(
+                    function (result) {
+                        console.log(result);
+                    }
+                )
+        </textarea>
+        <input class="run" type="button" value="Execute" onclick="
+        eval(document.querySelector('#relationships').value);
+            " />
+    </div>
+    <div></div>
+</body>
+</html>
